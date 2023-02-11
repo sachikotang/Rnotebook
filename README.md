@@ -18,6 +18,57 @@ fat <- t(fat)
 fat <- as.data.frame(fat)
 
 #批量读入
+
+list.files("E:\\test",full.names = TRUE)  #或dir("E:\\test",full.names = TRUE) 
+dat <- data.frame()
+for (i in 1:length(files_full))
+  {dat <- rbind(dat, read.csv(files_full[i]))}
+
+##方法1：批量导入：for循环+读入为列表
+#适用：有规律的文件名
+datalist<-NULL
+for( namenum in 1:44 ){
+  filename<-paste0("./ReadData/exportExcel (",namenum,").xlsx")
+  datalist[[namenum]] = read_excel(filename,sheet = 1)
+}
+
+##方法2：批量导入：for循环+读入为列表
+#适用：文件名不规律,同一类型文件在同一文件夹下
+filename2<- dir("./ReadData")
+datalist<-NULL
+for(i in 1:length(filename2)){
+  filename3<-paste0("./ReadData/",filename2[i])
+  datalist[[i]]=read_excel(filename3)
+
+##方法3：批量导入：for循环+读入为列表
+#适用：文件名不规律,多个类型xlsx、txt的数据，在同一文件夹下
+filename2<- dir("./ReadData")
+filename3<-grep("\\.xlsx",filename2,value=TRUE)
+datalist<-NULL
+for(i in 1:length(filename3)){
+  filename4<-paste0("./ReadData/",filename3[i])
+  datalist[[i]]=read_excel(filename4)
+}
+datalist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 fs = list.files('./176031/',pattern = '^GSM')
 samples <- substr(fs,1,10)
 folders=list.files('./176031/')
