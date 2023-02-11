@@ -16,3 +16,16 @@ write.table(b,  file = "结果文件", row.names = TRUE, col.names = FALSE, quot
 fat<-read.table("FATACID.txt",row.names=1,header=F,sep=",")
 fat <- t(fat)
 fat <- as.data.frame(fat)
+
+#批量读入
+fs = list.files('./176031/',pattern = '^GSM')
+samples <- substr(fs,1,10)
+folders=list.files('./176031/')
+folders
+library(Seurat)
+setwd("C://Users/bing/Desktop/TCGAPRAD/sigcell2/176031/")
+scList = lapply(folders,function(folder){ 
+  CreateSeuratObject(counts = read.table(folder), 
+                     project = folder,
+                     min.cells = 3, min.features = 200)
+})
